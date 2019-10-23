@@ -1,8 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
 
-import { Observable, interval, Subscription, fromEvent, merge, of, combineLatest } from 'rxjs';
-import { mapTo } from 'rxjs/operators'
+import { Observable, interval, Subscription, combineLatest } from 'rxjs';
 import { AuthService } from './shared/services/auth.service';
+import { UtilsService } from './shared/services/utils.service';
 
 @Component({
   selector: 'app-root',
@@ -16,9 +16,9 @@ export class AppComponent implements OnDestroy {
   userLoginSubscription: Subscription = null;
   pollingInterval: Observable<number> = interval(1500);
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private utilsService: UtilsService) {
     //start or stop polling when network connection changed.
-    this.onlineSubscription = this.getOnlineStatus().subscribe(isConnected => {
+    this.onlineSubscription = utilsService.getOnlineStatus().subscribe(isConnected => {
       if (isConnected) {
         console.log('start polling...');
         this.poller = this.pollingInterval.subscribe(() => this.pollingFunction())
@@ -31,7 +31,7 @@ export class AppComponent implements OnDestroy {
       }
     });
 
-    this.userLoginSubscription = combineLatest(this.getOnlineStatus(),
+    this.userLoginSubscription = combineLatest(utilsService.getOnlineStatus(),
       this.authService.isLoggedIn(),
       (onlineStatus, isLoggedIn) => ({ onlineStatus, isLoggedIn })).subscribe(({ onlineStatus, isLoggedIn }) => {
         if (onlineStatus && isLoggedIn) {
@@ -47,15 +47,6 @@ export class AppComponent implements OnDestroy {
     if (this.poller) {
       this.poller.unsubscribe();
     }
-  }
-
-  getOnlineStatus(): Observable<boolean> {
-    //check network connection
-    return merge(
-      of(navigator.onLine),
-      fromEvent(window, 'online').pipe(mapTo(true)),
-      fromEvent(window, 'offline').pipe(mapTo(false))
-    );
   }
 
   //mockup polling function
