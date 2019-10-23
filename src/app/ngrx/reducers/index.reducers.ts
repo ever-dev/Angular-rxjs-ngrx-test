@@ -4,4 +4,4 @@ import { IAppState } from '../state/app.state';
 
 export const appReducers: ActionReducerMap<IAppState, any> = {
   conversations: conversationReducer
-}
+};

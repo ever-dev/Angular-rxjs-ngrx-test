@@ -10,13 +10,13 @@ import { Conversation } from '../models/Conversation.model';
 @Injectable()
 export class ConversationEffects {
   @Effect()
-  getConversations$ = this._actions$.pipe(
+  getConversations$ = this.actions$.pipe(
     ofType<GetConversations>(EConversationActions.GetConversations),
-    switchMap(() => this._conversationsService.getConversations()),
+    switchMap(() => this.conversationsService.getConversations()),
     switchMap((conversations: Conversation[]) => of(new GetConversationsSuccess(conversations)))
   );
   constructor(
-    private _conversationsService: ConversationsService,
-    private _actions$: Actions,
+    private conversationsService: ConversationsService,
+    private actions$: Actions,
   ) { }
 }

@@ -15,7 +15,7 @@ const dummyMessages: Message[] = [
   { from: 'user1', message: 'Message10'},
   { from: 'user2', message: 'Message11'},
   { from: 'user3', message: 'Message12'},
-]
+];
 
 @Injectable({
   providedIn: 'root'

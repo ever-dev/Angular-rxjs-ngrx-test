@@ -21,19 +21,19 @@ export class AppComponent implements OnDestroy {
   numberSubscription: Subscription = null;
   pollingInterval: Observable<number> = interval(1500);
   numberList: number[] = [];
-  filter: string = '';
+  filter = '';
 
   constructor(private authService: AuthService,
-    private utilsService: UtilsService,
-    private numbersService: NumbersService,
-    private messagesService: MessagesService,
-    private themeService: ThemeService
+              private utilsService: UtilsService,
+              private numbersService: NumbersService,
+              private messagesService: MessagesService,
+              private themeService: ThemeService
   ) {
     // Task1: start or stop polling when network connection changed.
     this.onlineSubscription = utilsService.getOnlineStatus().subscribe(isConnected => {
       if (isConnected) {
         console.log('start polling...');
-        this.poller = this.pollingInterval.subscribe(() => this.pollingFunction())
+        this.poller = this.pollingInterval.subscribe(() => this.pollingFunction());
       } else {
         if (this.poller) {
           console.log('stop polling...');
@@ -58,7 +58,7 @@ export class AppComponent implements OnDestroy {
         this.numberList.push(newNumber);
         console.log('Numbers List:', this.numberList);
       }).unsubscribe();
-    })
+    });
   }
 
   // Unsubscribe all subscriptions
@@ -70,7 +70,7 @@ export class AppComponent implements OnDestroy {
     }
   }
 
-  //mockup polling function
+  // mockup polling function
   pollingFunction(): void {
     console.log('polling...');
   }

@@ -6,4 +6,4 @@ export interface IConversationState {
 
 export const initialConversationState = {
   conversations: []
-}
+};

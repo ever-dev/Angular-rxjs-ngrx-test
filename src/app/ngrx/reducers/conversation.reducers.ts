@@ -13,4 +13,4 @@ export const conversationReducer = (
     default:
       return state;
   }
-}
+};

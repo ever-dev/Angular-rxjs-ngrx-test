@@ -1,4 +1,4 @@
 export interface Message {
-  from: string,
-  message: string
-};
+  from: string;
+  message: string;
+}
