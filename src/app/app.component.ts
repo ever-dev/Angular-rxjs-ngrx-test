@@ -4,6 +4,7 @@ import { Observable, interval, Subscription, combineLatest } from 'rxjs';
 import { AuthService } from './shared/services/auth.service';
 import { UtilsService } from './shared/services/utils.service';
 import { NumbersService } from './shared/services/numbers.service';
+import { MessagesService } from './shared/services/messages.service';
 
 @Component({
   selector: 'app-root',
@@ -18,10 +19,13 @@ export class AppComponent implements OnDestroy {
   numberSubscription: Subscription = null;
   pollingInterval: Observable<number> = interval(1500);
   numberList: number[] = [];
+  filter: string = '';
 
   constructor(private authService: AuthService,
     private utilsService: UtilsService,
-    private numbersService: NumbersService) {
+    private numbersService: NumbersService,
+    private messagesService: MessagesService
+  ) {
     // Task1: start or stop polling when network connection changed.
     this.onlineSubscription = utilsService.getOnlineStatus().subscribe(isConnected => {
       if (isConnected) {

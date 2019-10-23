@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from './services/auth.service';
 import { UtilsService } from './services/utils.service';
 import { NumbersService } from './services/numbers.service';
+import { MessagesService } from './services/messages.service';
 
 @NgModule({
   declarations: [],
@@ -12,7 +13,8 @@ import { NumbersService } from './services/numbers.service';
   providers: [
     AuthService,
     UtilsService,
-    NumbersService
+    NumbersService,
+    MessagesService
   ]
 })
 export class SharedModule { }

@@ -363,7 +363,14 @@
     </a>
   </ng-template>
 
-
+  <ng-container>
+    <input type="text" [(ngModel)]="filter" />
+    <label for="messages">Message</label>
+    <ul id="messages">
+      <li *ngFor="let message of messagesService.searchMessages(filter) | async">{{message}}</li>
+    </ul>
+  </ng-container>
+  
   <!-- Footer -->
   <footer>
       Love Angular?&nbsp;
