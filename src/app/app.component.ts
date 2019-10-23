@@ -5,6 +5,8 @@ import { AuthService } from './shared/services/auth.service';
 import { UtilsService } from './shared/services/utils.service';
 import { NumbersService } from './shared/services/numbers.service';
 import { MessagesService } from './shared/services/messages.service';
+import { ThemeService } from './shared/services/theme.service';
+import { Theme } from './shared/shared.interface';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +26,8 @@ export class AppComponent implements OnDestroy {
   constructor(private authService: AuthService,
     private utilsService: UtilsService,
     private numbersService: NumbersService,
-    private messagesService: MessagesService
+    private messagesService: MessagesService,
+    private themeService: ThemeService
   ) {
     // Task1: start or stop polling when network connection changed.
     this.onlineSubscription = utilsService.getOnlineStatus().subscribe(isConnected => {
@@ -78,5 +81,9 @@ export class AppComponent implements OnDestroy {
 
   logout(): void {
     this.authService.logout();
+  }
+
+  onThemeSelect(theme: Theme) {
+    this.themeService.changeTheme(theme);
   }
 }
