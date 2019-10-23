@@ -2,4 +2,7 @@
   * {
     color: #000;
   }
+  &.content {
+    align-items: flex-start !important;
+  }
 }
