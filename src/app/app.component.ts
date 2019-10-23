@@ -3,6 +3,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { Observable, interval, Subscription, combineLatest } from 'rxjs';
 import { AuthService } from './shared/services/auth.service';
 import { UtilsService } from './shared/services/utils.service';
+import { NumbersService } from './shared/services/numbers.service';
 
 @Component({
   selector: 'app-root',
@@ -14,10 +15,14 @@ export class AppComponent implements OnDestroy {
   poller: Subscription = null;
   onlineSubscription: Subscription = null;
   userLoginSubscription: Subscription = null;
+  numberSubscription: Subscription = null;
   pollingInterval: Observable<number> = interval(1500);
+  numberList: number[] = [];
 
-  constructor(private authService: AuthService, private utilsService: UtilsService) {
-    //start or stop polling when network connection changed.
+  constructor(private authService: AuthService,
+    private utilsService: UtilsService,
+    private numbersService: NumbersService) {
+    // Task1: start or stop polling when network connection changed.
     this.onlineSubscription = utilsService.getOnlineStatus().subscribe(isConnected => {
       if (isConnected) {
         console.log('start polling...');
@@ -31,6 +36,7 @@ export class AppComponent implements OnDestroy {
       }
     });
 
+    // Task2
     this.userLoginSubscription = combineLatest(utilsService.getOnlineStatus(),
       this.authService.isLoggedIn(),
       (onlineStatus, isLoggedIn) => ({ onlineStatus, isLoggedIn })).subscribe(({ onlineStatus, isLoggedIn }) => {
@@ -38,6 +44,14 @@ export class AppComponent implements OnDestroy {
           console.log('User is online and logged in');
         }
       });
+
+    // Task3
+    this.numberSubscription = interval(2000).subscribe(() => {
+      this.numbersService.getNumber().subscribe((newNumber) => {
+        this.numberList.push(newNumber);
+        console.log('Numbers List:', this.numberList);
+      }).unsubscribe();
+    })
   }
 
   // Unsubscribe all subscriptions

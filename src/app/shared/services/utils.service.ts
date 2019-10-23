@@ -8,6 +8,7 @@ import { mapTo } from 'rxjs/operators';
 export class UtilsService {
 
   constructor() { }
+  
   getOnlineStatus(): Observable<boolean> {
     //check network connection
     return merge(
